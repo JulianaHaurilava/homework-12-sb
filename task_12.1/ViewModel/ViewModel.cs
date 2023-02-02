@@ -2,15 +2,28 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace task_12._1
 {
-    public class ViewModel : ObservableCollection<Client>
+    public class ViewModel
     {
         private string fileName;
+        private Client selectedClient;
+
+        ObservableCollection<Client> clients;
+        public Client SelectedClient
+        {
+            get => selectedClient;
+            set
+            {
+                selectedClient = value;
+            }
+        }
         public ViewModel()
         {
             fileName = "clients.json";
+            clients = new ObservableCollection<Client>();
             OutOfFile();
         }
 
@@ -23,7 +36,7 @@ namespace task_12._1
         {
             get
             {
-                foreach (Client client in this)
+                foreach (Client client in clients)
                 {
                     if (client.PhoneNumber == phoneNumber)
                         return client;
@@ -34,45 +47,61 @@ namespace task_12._1
 
         private void NewClientInFile(Client newClient)
         {
-            string json = JsonConvert.SerializeObject(newClient);
-            File.AppendAllText(fileName, json);
+            File.AppendAllText(fileName, newClient.GetJson());
         }
-        private void InFile()
-        {
-            //string json = JsonConvert.SerializeObject(this);
-            //File.WriteAllText(fileName, json);
 
-            using (StreamWriter stream = new StreamWriter(fileName))
-            {
-                string json = JsonConvert.SerializeObject(this);
-                stream.Write(fileName, json);
-            }
-        }
         private void OutOfFile()
         {
             if (File.Exists(fileName))
             {
-                List<Client> list;
+                string json;
                 using (StreamReader stream = new StreamReader(fileName, true))
                 {
-                    string json = stream.ReadToEnd();
-                    list = JsonConvert.DeserializeObject<List<Client>>(json);
+                    json = stream.ReadToEnd();
                 }
-                foreach (Client client in list)
+                //string a = JObject.Parse(json).ToString();
+                //while (JObject.Parse(json).ToString() != null)
+                //{
+
+                //}
+
+            }
+            //string json = File.ReadAllText("telegram.json");
+
+            //Console.WriteLine(JObject.Parse(json)["ok"].ToString());
+
+            //var messages = JObject.Parse(json)["result"].ToArray();
+            //Console.WriteLine();
+            //foreach (var item in messages)
+            //{
+            //    Console.WriteLine(item["message"]["message_id"].ToString());
+            //    Console.WriteLine(item["message"]["text"].ToString());
+            //    Console.WriteLine(item["message"]["chat"]["username"].ToString());
+            //    Console.WriteLine();
+            //}
+
+            //Console.ReadLine(); Console.Clear();
+        }
+
+        private void InFile()
+        {
+            using (StreamWriter stream = new StreamWriter(fileName))
+            {
+                foreach (Client client in clients)
                 {
-                    Add(client);
+                    stream.Write(fileName, client.GetJson());
                 }
             }
         }
 
         public void AddNewClient(Client newClient)
         {
-            Add(newClient);
+            clients.Add(newClient);
             NewClientInFile(newClient);
         }
         public void DeleteClient(Client clientToDelete)
         {
-            Remove(clientToDelete);
+            clients.Remove(clientToDelete);
             InFile();
         }
     }

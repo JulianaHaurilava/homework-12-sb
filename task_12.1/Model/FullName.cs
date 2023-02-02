@@ -1,22 +1,22 @@
 ﻿namespace task_12._1
 {
-    public struct FullName
+    public class FullName
     {
-        string surname;
-        string name;
-        string patronymic;
+        public string Surname { get; private set; }
+        public string Name { get; private set; }
+        public string Patronymic { get; private set; }
 
         public FullName(string surname, string name,
             string patronymic)
         {
-            this.surname = surname;
-            this.name = name;
-            this.patronymic = patronymic;
+            Surname = surname;
+            Name = name;
+            Patronymic = patronymic;
         }
 
         public override string ToString()
         {
-            return surname + " " + name + " " + patronymic;
+            return Surname + " " + Name + " " + Patronymic;
         }
     }
 }

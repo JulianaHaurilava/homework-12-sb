@@ -1,18 +1,18 @@
 ﻿namespace task_12._1
 {
-    public struct PhoneNumber
+    public class PhoneNumber
     {
-        string countryCode;
-        string cityCode;
-        string number;
+        public string Number { get; private set; }
+        public string СityCode { get; private set; }
+        public string СountryCode { get; private set; }
 
         public PhoneNumber(string phoneNumber)
         {
-            number = phoneNumber.Substring(phoneNumber.Length - 7);
+            Number = phoneNumber.Substring(phoneNumber.Length - 7);
             phoneNumber = phoneNumber.Remove(phoneNumber.Length - 7);
-            cityCode = phoneNumber.Substring(phoneNumber.Length - 2);
+            СityCode = phoneNumber.Substring(phoneNumber.Length - 2);
             phoneNumber = phoneNumber.Remove(phoneNumber.Length - 2);
-            countryCode = phoneNumber.Substring(1);
+            СountryCode = phoneNumber.Substring(1);
         }
 
         /// <summary>
@@ -21,31 +21,31 @@
         /// <returns></returns>
         public string ReturnSimpleNumber()
         {
-            return "+" + countryCode + cityCode + number;
+            return "+" + СountryCode + СityCode + Number;
         }
 
         public override string ToString()
         {
             string outCountryCode;
-            switch (countryCode.Length)
+            switch (СountryCode.Length)
             {
                 case 5:
                     outCountryCode = string.Format("{0:+#-###}",
-                        int.Parse(countryCode));
+                        int.Parse(СountryCode));
                     break;
                 default:
-                    outCountryCode = countryCode;
+                    outCountryCode = СountryCode;
                     break;
             }
-            return "+" + outCountryCode + " (" + cityCode + ") " +
-                string.Format("{0:###-##-##}", int.Parse(number));
+            return "+" + outCountryCode + " (" + СityCode + ") " +
+                string.Format("{0:###-##-##}", int.Parse(Number));
         }
 
         public static bool operator ==(PhoneNumber phn_1, PhoneNumber phn_2)
         {
-            return phn_1.countryCode == phn_2.countryCode &&
-                phn_1.cityCode == phn_2.cityCode &&
-                phn_1.number == phn_2.number;
+            return phn_1.СountryCode == phn_2.СountryCode &&
+                phn_1.СityCode == phn_2.СityCode &&
+                phn_1.Number == phn_2.Number;
         }
 
         public static bool operator !=(PhoneNumber phn_1, PhoneNumber phn_2)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace task_12._1
 {
@@ -42,9 +44,9 @@ namespace task_12._1
 
         public Client()
         {
-            FullName = new FullName();
-            PhoneNumber = new PhoneNumber();
-            Passport = new Passport();
+            FullName = default;
+            PhoneNumber = default;
+            Passport = default;
         }
         public Client(string surname, string name, string patronymic,
             string phoneNumber, string passportSeries, string passportNumber)
@@ -59,6 +61,32 @@ namespace task_12._1
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public string GetJson()
+        {
+            JObject jClient = new JObject();
+
+            JObject jFullName = new JObject();
+            jFullName["Surname"] = fullName.Surname;
+            jFullName["Name"] = fullName.Name;
+            jFullName["Patronymic"] = fullName.Patronymic;
+
+            jClient["FullName"] = jFullName;
+
+            JObject jPhoneNumber = new JObject();
+            jPhoneNumber["CountryCode"] = phoneNumber.СountryCode;
+            jPhoneNumber["CityCode"] = phoneNumber.СityCode;
+            jPhoneNumber["Number"] = phoneNumber.Number;
+
+            jClient["PhoneNumber"] = jPhoneNumber;
+
+            JObject jPassport = new JObject();
+            jPassport["Series"] = passport.Series;
+            jPassport["Number"] = passport.Number;
+
+            jClient["Passport"] = jPassport;
+
+            return jClient.ToString();
         }
     }
 }

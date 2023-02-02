@@ -1,18 +1,18 @@
 ﻿namespace task_12._1
 {
-    public struct Passport
+    public class Passport
     {
-        string series;
-        string number;
+        public string Series { get; private set; }
+        public string Number { get; private set; }
         public Passport(string series, string number)
         {
-            this.series = series;
-            this.number = number;
+            Series = series;
+            Number = number;
         }
 
         public override string ToString()
         {
-            return series + number;
+            return Series + Number;
         }
     }
 }
