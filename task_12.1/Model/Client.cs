@@ -40,14 +40,6 @@ namespace task_12._1
                 OnPropertyChanged("Passport");
             }
         }
-
-
-        public Client()
-        {
-            FullName = default;
-            PhoneNumber = default;
-            Passport = default;
-        }
         public Client(string surname, string name, string patronymic,
             string phoneNumber, string passportSeries, string passportNumber)
         {
@@ -56,13 +48,21 @@ namespace task_12._1
             Passport = new Passport(passportSeries, passportNumber);
         }
 
+        [JsonConstructor]
+        public Client(FullName fullName, PhoneNumber phoneNumber, Passport passport)
+        {
+            FullName = fullName;
+            PhoneNumber = phoneNumber;
+            Passport = passport;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public string GetJson()
+        public JObject GetJson()
         {
             JObject jClient = new JObject();
 
@@ -86,7 +86,7 @@ namespace task_12._1
 
             jClient["Passport"] = jPassport;
 
-            return jClient.ToString();
+            return jClient;
         }
     }
 }

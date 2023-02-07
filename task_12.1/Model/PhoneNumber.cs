@@ -1,10 +1,21 @@
-﻿namespace task_12._1
+﻿using Newtonsoft.Json;
+
+namespace task_12._1
 {
     public class PhoneNumber
     {
         public string Number { get; private set; }
         public string СityCode { get; private set; }
         public string СountryCode { get; private set; }
+
+        [JsonConstructor]
+        public PhoneNumber(string countryCode, string cityCode,
+            string number)
+        {
+            СountryCode = countryCode;
+            СityCode = cityCode;
+            Number = number;
+        }
 
         public PhoneNumber(string phoneNumber)
         {

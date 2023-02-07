@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Security.Principal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,6 +13,7 @@ namespace task_12._1
         private Client selectedClient;
 
         ObservableCollection<Client> clients;
+
         public Client SelectedClient
         {
             get => selectedClient;
@@ -47,57 +49,43 @@ namespace task_12._1
 
         private void NewClientInFile(Client newClient)
         {
-            File.AppendAllText(fileName, newClient.GetJson());
+            //File.AppendAllText(fileName, newClient.GetJson());
         }
 
         private void OutOfFile()
         {
             if (File.Exists(fileName))
             {
-                string json;
                 using (StreamReader stream = new StreamReader(fileName, true))
                 {
-                    json = stream.ReadToEnd();
+                    string json = stream.ReadToEnd();
+                    if (json.Length != 0)
+                    {
+                        clients = JsonConvert.DeserializeObject<ObservableCollection<Client>>(json);
+                    }
                 }
-                //string a = JObject.Parse(json).ToString();
-                //while (JObject.Parse(json).ToString() != null)
-                //{
-
-                //}
-
             }
-            //string json = File.ReadAllText("telegram.json");
-
-            //Console.WriteLine(JObject.Parse(json)["ok"].ToString());
-
-            //var messages = JObject.Parse(json)["result"].ToArray();
-            //Console.WriteLine();
-            //foreach (var item in messages)
-            //{
-            //    Console.WriteLine(item["message"]["message_id"].ToString());
-            //    Console.WriteLine(item["message"]["text"].ToString());
-            //    Console.WriteLine(item["message"]["chat"]["username"].ToString());
-            //    Console.WriteLine();
-            //}
-
-            //Console.ReadLine(); Console.Clear();
         }
 
         private void InFile()
         {
+            JArray clientsCollection = new JArray();
+            foreach (Client client in clients)
+            {
+                clientsCollection.Add(client.GetJson());
+            }
+
             using (StreamWriter stream = new StreamWriter(fileName))
             {
-                foreach (Client client in clients)
-                {
-                    stream.Write(fileName, client.GetJson());
-                }
+                string json = JsonConvert.SerializeObject(clientsCollection, Formatting.Indented);
+                stream.Write(json);
             }
         }
 
         public void AddNewClient(Client newClient)
         {
             clients.Add(newClient);
-            NewClientInFile(newClient);
+            InFile();
         }
         public void DeleteClient(Client clientToDelete)
         {
