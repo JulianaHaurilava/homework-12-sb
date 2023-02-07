@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:task_12._1"
+        xmlns:viewModel="clr-namespace:task_12._1"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,9 +14,10 @@
         Background="#222629"
         FontFamily="{DynamicResource MaterialDesignFont}">
 
-    <Window.Resources>
-        <c:ViewModel x:Key="ClientsCollection"/>
-    </Window.Resources>
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -50,7 +51,7 @@
                   Grid.Column="1"
                   Grid.RowSpan="2"
                   Margin="10"
-                  ItemsSource="{Binding Source={StaticResource ClientsCollection}}"
+                  ItemsSource="{Binding ClientsCollection}"
                   SelectedItem="{Binding SelectedClient, Mode=TwoWay}">
             <ListView.View>
                 <GridView>
