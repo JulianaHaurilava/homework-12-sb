@@ -1,4 +1,4 @@
-﻿namespace task_12._1
+﻿namespace task_12._1.Model
 {
     public class FullName
     {
@@ -12,6 +12,13 @@
             Surname = surname;
             Name = name;
             Patronymic = patronymic;
+        }
+
+        public FullName()
+        {
+            Surname = default;
+            Name = default;
+            Patronymic = default;
         }
 
         public override string ToString()

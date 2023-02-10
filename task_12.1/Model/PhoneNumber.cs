@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace task_12._1
+namespace task_12._1.Model
 {
     public class PhoneNumber
     {
@@ -24,6 +24,13 @@ namespace task_12._1
             СityCode = phoneNumber.Substring(phoneNumber.Length - 2);
             phoneNumber = phoneNumber.Remove(phoneNumber.Length - 2);
             СountryCode = phoneNumber.Substring(1);
+        }
+
+        public PhoneNumber()
+        {
+            СountryCode = default;
+            СityCode = default;
+            Number = default;
         }
 
         /// <summary>

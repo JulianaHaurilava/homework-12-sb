@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace task_12._1
+namespace task_12._1.Model
 {
     public class Client : INotifyPropertyChanged
     {
@@ -40,16 +42,28 @@ namespace task_12._1
                 OnPropertyChanged("Passport");
             }
         }
+
+        public List<BankAccount> BankAccounts;
+
+        public Client()
+        {
+            fullName = new FullName();
+            this.phoneNumber = new PhoneNumber();
+            Passport = new Passport();
+            BankAccounts = new List<BankAccount>();
+        }
+
         public Client(string surname, string name, string patronymic,
             string phoneNumber, string passportSeries, string passportNumber)
         {
             fullName = new FullName(surname, name, patronymic);
             this.phoneNumber = new PhoneNumber(phoneNumber);
             Passport = new Passport(passportSeries, passportNumber);
+            BankAccounts = new List<BankAccount>();
         }
 
         [JsonConstructor]
-        public Client(FullName fullName, PhoneNumber phoneNumber, Passport passport)
+        public Client(FullName fullName, PhoneNumber phoneNumber, Passport passport, List<BankAccount> bankAccounts)
         {
             FullName = fullName;
             PhoneNumber = phoneNumber;
@@ -85,6 +99,19 @@ namespace task_12._1
             jPassport["Number"] = passport.Number;
 
             jClient["Passport"] = jPassport;
+
+            JArray jBankAccounts = new JArray();
+
+            foreach (BankAccount bankAccount in BankAccounts)
+            {
+                JObject jBankAccount = new JObject();
+
+                jBankAccount["Money"] = bankAccount.Money;
+
+                jBankAccounts.Add(jBankAccount);
+            }
+
+            jClient["BankAccounts"] = jBankAccounts;
 
             return jClient;
         }

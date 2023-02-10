@@ -1,23 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Net;
-using System.Security.Principal;
-using System.Windows.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using task_12._1.Model;
 
-namespace task_12._1
+namespace task_12._1.ViewModel
 {
     public class MainViewModel
     {
         private string fileName;
 
+
         public Client SelectedClient { get; set; }
         public ObservableCollection<Client> ClientsCollection { get; set; }
-
-        
-
 
         public MainViewModel()
         {
@@ -43,11 +38,6 @@ namespace task_12._1
                 }
                 return null;
             }
-        }
-
-        private void NewClientInFile(Client newClient)
-        {
-            //File.AppendAllText(fileName, newClient.GetJson());
         }
 
         private void OutOfFile()
@@ -79,15 +69,11 @@ namespace task_12._1
             }
         }
 
-        private AddClient()
-        {
-            ClientsCollection.Add(newClient);
-            InFile();
-        }
-        public void AddNewClient(Client newClient)
+        private void AddClient()
         {
             
         }
+
         public void DeleteClient(Client clientToDelete)
         {
             ClientsCollection.Remove(clientToDelete);

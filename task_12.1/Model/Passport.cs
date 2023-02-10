@@ -1,4 +1,4 @@
-﻿namespace task_12._1
+﻿namespace task_12._1.Model
 {
     public class Passport
     {
@@ -8,6 +8,12 @@
         {
             Series = series;
             Number = number;
+        }
+
+        public Passport()
+        {
+            Series = default;
+            Number = default;
         }
 
         public override string ToString()
