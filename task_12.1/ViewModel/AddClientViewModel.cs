@@ -4,28 +4,28 @@ using System;
 using System.Windows.Input;
 using task_12._1.Model;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace task_12._1.ViewModel
 {
     public class AddClientViewModel : MainViewModel
     {
-        public ICommand AddCommand { get; private set; }
+        public ICommand AddClientCommand { get; private set; }
 
-        private Client newClient;
+        public Client NewClient { get; set; }
 
         public AddClientViewModel()
         {
-            AddCommand = new DelegateCommand(AddNewClient, CanBeAdded);
-            newClient = new Client();
+            AddClientCommand = new DelegateCommand(AddClient, CanBeAdded);
+            NewClient = new Client();
         }
 
-        
-
-        private void NewClientInFile(Client newClient)
+        public AddClientViewModel(ObservableCollection<Client> clients)
         {
-            //File.AppendAllText(fileName, newClient.GetJson());
+            AddClientCommand = new DelegateCommand(AddClient, CanBeAdded);
+            NewClient = new Client();
+            ClientsCollection = clients;
         }
-
 
         private void InFile()
         {
@@ -35,29 +35,24 @@ namespace task_12._1.ViewModel
                 clientsArray.Add(client.GetJson());
             }
 
-            //using (StreamWriter stream = new StreamWriter(fileName))
-            //{
-            //    string json = JsonConvert.SerializeObject(clientsArray, Formatting.Indented);
-            //    stream.Write(json);
-            //}
+            using (StreamWriter stream = new StreamWriter(fileName))
+            {
+                string json = JsonConvert.SerializeObject(clientsArray, Formatting.Indented);
+                stream.Write(json);
+            }
         }
 
-        private void AddClient()
+        private void AddClient(object obj)
         {
-            ClientsCollection.Add(newClient);
+            ClientsCollection.Add(NewClient);
             InFile();
         }
 
         private bool CanBeAdded(object arg)
         {
-            return newClient.FullName.Surname != "" && newClient.FullName.Name != "" &&
-                newClient.FullName.Patronymic != "" && newClient.PhoneNumber.ToString() != "" &&
-                newClient.Passport.ToString() != "";
-        }
-
-        private void AddNewClient(object obj)
-        {
-            throw new NotImplementedException();
+            return NewClient.FullName.Surname != null && NewClient.FullName.Name != null && 
+                NewClient.PhoneNumber.ToString().Length > 10 &&
+                NewClient.Passport.ToString().Length == 9;
         }
     }
 }

@@ -2,9 +2,9 @@
 {
     public class FullName
     {
-        public string Surname { get; private set; }
-        public string Name { get; private set; }
-        public string Patronymic { get; private set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
 
         public FullName(string surname, string name,
             string patronymic)

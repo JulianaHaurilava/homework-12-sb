@@ -2,8 +2,8 @@
 {
     public class Passport
     {
-        public string Series { get; private set; }
-        public string Number { get; private set; }
+        public string Series { get; set; }
+        public string Number { get; set; }
         public Passport(string series, string number)
         {
             Series = series;

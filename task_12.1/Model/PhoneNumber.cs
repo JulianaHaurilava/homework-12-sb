@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics.Eventing.Reader;
 
 namespace task_12._1.Model
 {
     public class PhoneNumber
     {
-        public string Number { get; private set; }
-        public string СityCode { get; private set; }
-        public string СountryCode { get; private set; }
+        public string Number { get; set; }
+        public string СityCode { get; set; }
+        public string СountryCode { get; set; }
 
         [JsonConstructor]
         public PhoneNumber(string countryCode, string cityCode,
@@ -19,11 +20,14 @@ namespace task_12._1.Model
 
         public PhoneNumber(string phoneNumber)
         {
-            Number = phoneNumber.Substring(phoneNumber.Length - 7);
-            phoneNumber = phoneNumber.Remove(phoneNumber.Length - 7);
-            СityCode = phoneNumber.Substring(phoneNumber.Length - 2);
-            phoneNumber = phoneNumber.Remove(phoneNumber.Length - 2);
-            СountryCode = phoneNumber.Substring(1);
+            if (phoneNumber.Length > 10)
+            {
+                Number = phoneNumber.Substring(phoneNumber.Length - 7);
+                phoneNumber = phoneNumber.Remove(phoneNumber.Length - 7);
+                СityCode = phoneNumber.Substring(phoneNumber.Length - 2);
+                phoneNumber = phoneNumber.Remove(phoneNumber.Length - 2);
+                СountryCode = phoneNumber.Substring(1);
+            }
         }
 
         public PhoneNumber()
@@ -44,19 +48,23 @@ namespace task_12._1.Model
 
         public override string ToString()
         {
-            string outCountryCode;
-            switch (СountryCode.Length)
+            if (СountryCode != null)
             {
-                case 5:
-                    outCountryCode = string.Format("{0:+#-###}",
-                        int.Parse(СountryCode));
-                    break;
-                default:
-                    outCountryCode = СountryCode;
-                    break;
+                string outCountryCode;
+                switch (СountryCode.Length)
+                {
+                    case 5:
+                        outCountryCode = string.Format("{0:+#-###}",
+                            int.Parse(СountryCode));
+                        break;
+                    default:
+                        outCountryCode = СountryCode;
+                        break;
+                }
+                return "+" + outCountryCode + " (" + СityCode + ") " +
+                    string.Format("{0:###-##-##}", int.Parse(Number));
             }
-            return "+" + outCountryCode + " (" + СityCode + ") " +
-                string.Format("{0:###-##-##}", int.Parse(Number));
+            return "";
         }
 
         public static bool operator ==(PhoneNumber phn_1, PhoneNumber phn_2)

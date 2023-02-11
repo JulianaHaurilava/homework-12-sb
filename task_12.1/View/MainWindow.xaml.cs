@@ -18,8 +18,12 @@ namespace task_12._1.View
 
         private void AddNewClient(object sender, RoutedEventArgs e)
         {
-            Client client = new Client("Check", "Check", "Check", "+375445424749", "FF", "111111");
-            //vm.AddNewClient(client);
+            AddNewClientWindow addNewClientWindow = new AddNewClientWindow
+            {
+                Owner = this,
+                v.ClientsCollection = ClientsCollection
+            };
+            addNewClientWindow.ShowDialog();
         }
     }
 }

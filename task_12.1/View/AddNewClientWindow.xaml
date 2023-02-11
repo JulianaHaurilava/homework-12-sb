@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:task_12._1.ViewModel"
+        xmlns:local="clr-namespace:task_12._1"
         mc:Ignorable="d"
         Height="400"
         Width="450"
@@ -17,6 +18,10 @@
         TextOptions.TextRenderingMode="Auto"
         Background="#222629"
         FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Window.Resources>
+        <local:PhoneNumberConverter x:Key="phoneNumberConverter"/>
+    </Window.Resources>
 
     <Window.DataContext>
         <viewModel:AddClientViewModel/>
@@ -57,7 +62,8 @@
                  Grid.ColumnSpan="2"
                  Grid.Column="1"
                  Grid.Row="2"
-                 HorizontalContentAlignment="Center"/>
+                 HorizontalContentAlignment="Center"
+                 Text="{Binding NewClient.FullName.Surname, Mode=OneWayToSource}"/>
 
         <TextBlock Grid.Row="3"
                    Text="Имя:"
@@ -67,7 +73,8 @@
                  HorizontalContentAlignment="Center"
                  Grid.ColumnSpan="2"
                  Grid.Column="1"
-                 Grid.Row="3"/>
+                 Grid.Row="3"
+                 Text="{Binding NewClient.FullName.Name, Mode=OneWayToSource}"/>
 
         <TextBlock Grid.Row="4"
                    Text="Отчество:"
@@ -77,7 +84,8 @@
                  Margin="5,3,10,3"
                  Grid.ColumnSpan="2"
                  Grid.Column="1"
-                 Grid.Row="4"/>
+                 Grid.Row="4"
+                 Text="{Binding NewClient.FullName.Patronymic, Mode=OneWayToSource}"/>
 
         <TextBlock Grid.Row="5"
                    Text="Телефон:"
@@ -88,7 +96,8 @@
                  Grid.ColumnSpan="2"
                  Grid.Column="1"
                  Grid.Row="5"
-                 MaxLength="14"/>
+                 MaxLength="14"
+                 Text="{Binding NewClient.PhoneNumber, Mode=OneWayToSource, Converter={StaticResource phoneNumberConverter}}"/>
 
         <TextBlock Grid.Row="6"
                    Text="Паспорт:"
@@ -98,23 +107,25 @@
                  Margin="5,3,5,3"
                  Grid.Column="1"
                  Grid.Row="6"
-                 MaxLength="2"/>
+                 MaxLength="2"
+                 Text="{Binding NewClient.Passport.Series, Mode=OneWayToSource}"/>
         <TextBox x:Name="tbNumber"
                  HorizontalContentAlignment="Center"
                  Margin="5,3,10,3"
                  Grid.Column="2"
                  Grid.Row="6"
-                 MaxLength="7"/>
+                 MaxLength="7"
+                 Text="{Binding NewClient.Passport.Number, Mode=OneWayToSource}"/>
 
         <Button x:Name="bAddNewClient"
                 Grid.ColumnSpan="3"
                 Grid.RowSpan="2"
                 Content="Сохранить изменения"
                 Grid.Row="7"
-                IsEnabled="False"
-                Command="{Binding AddCommand}"
+                Command="{Binding AddClientCommand}"
                 Height="30"
-                Width="200"/>
+                Width="200"
+                Click="bAddNewClient_Click"/>
 
     </Grid>
 </Window>

@@ -75,6 +75,7 @@
     <Compile Include="Model\FullName.cs" />
     <Compile Include="Model\Passport.cs" />
     <Compile Include="Model\PhoneNumber.cs" />
+    <Compile Include="PhoneNumberConverter.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AddNewClientWindow.xaml.cs">

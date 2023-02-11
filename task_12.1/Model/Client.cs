@@ -49,7 +49,7 @@ namespace task_12._1.Model
         {
             fullName = new FullName();
             this.phoneNumber = new PhoneNumber();
-            Passport = new Passport();
+            passport = new Passport();
             BankAccounts = new List<BankAccount>();
         }
 
@@ -68,6 +68,7 @@ namespace task_12._1.Model
             FullName = fullName;
             PhoneNumber = phoneNumber;
             Passport = passport;
+            BankAccounts = new List<BankAccount>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

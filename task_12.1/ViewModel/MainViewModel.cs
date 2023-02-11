@@ -3,14 +3,13 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using task_12._1.Model;
+using task_12._1.View;
 
 namespace task_12._1.ViewModel
 {
     public class MainViewModel
     {
-        private string fileName;
-
-
+        protected string fileName;
         public Client SelectedClient { get; set; }
         public ObservableCollection<Client> ClientsCollection { get; set; }
 
@@ -67,11 +66,6 @@ namespace task_12._1.ViewModel
                 string json = JsonConvert.SerializeObject(clientsArray, Formatting.Indented);
                 stream.Write(json);
             }
-        }
-
-        private void AddClient()
-        {
-            
         }
 
         public void DeleteClient(Client clientToDelete)
